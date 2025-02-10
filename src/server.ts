@@ -49,7 +49,12 @@ const books: Book[] = [
 ]
 
 app.get('/books', (req: Request, res: Response) => {
-    res.json(books)
+    if (req.query.title) {
+        const title = req.query.title;
+        const filteredBooks = books.filter((book) => book.title === title);
+        res.json(filteredBooks);}
+        else {
+        res.json(books);}
 })
 
 app.listen(port, () => {
