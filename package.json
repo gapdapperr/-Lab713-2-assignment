@@ -17,6 +17,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "-lab713-2-assignment": "file:",
     "express": "^4.21.2"
   }
 }

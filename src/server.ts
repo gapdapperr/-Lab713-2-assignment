@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 const app = express()
-const port = 3000
+const port = 5000
 
 interface Book {
     id: number,
@@ -9,6 +9,9 @@ interface Book {
     description: string,
     groups: string
 }
+
+app.use(express.json())
+
 
 const books: Book[] = [
     {
@@ -48,18 +51,24 @@ const books: Book[] = [
     },
     {  
         id: 6, 
-        title: 'The Catcher in the Rye',
+        title: "The Catcher in the Rye",
         Author_name: 'J.D. Salinger',
         description: 'The Catcher in the Rye is a novel by J. D. Salinger, partially published in serial form in 1945–1946 and as a novel in 1951. It was originally intended ',
         groups: 'Fiction'
     }
 ]
 
+
 app.get('/books', (req: Request, res: Response) => {
-    if (req.query.title) {
+    if (typeof req.query.title === "string") {
         const title = req.query.title;
-        const filteredBooks = books.filter((book) => book.title === title);
-        res.json(filteredBooks);}
+        for (let i = 0; i < books.length; i++) {
+            if (books[i].title.startsWith(title)) {
+                res.json(books[i]);
+                return;
+            }
+        }
+    }
         else {
         res.json(books);}
 })
@@ -75,10 +84,25 @@ app.get('/books/:id', (req: Request, res: Response) => {
     }
 })
 
+app.post('/books', (req: Request, res: Response) => {
+    for (let i = 0; i < books.length; i++) {
+        if (books[i].title === req.body.title) {
+            books[i] = req.body;
+            res.json(books[i]);
+            return;
+        }
+    }
+    const newBook: Book = req.body;
+    newBook.id = books.length + 1;
+    books.push(newBook);
+    res.json(newBook);
+})
+
+
+
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
   })
-
 
 
 
