@@ -85,12 +85,11 @@ app.get('/books/:id', (req: Request, res: Response) => {
 })
 
 app.post('/books', (req: Request, res: Response) => {
-    for (let i = 0; i < books.length; i++) {
-        if (books[i].title === req.body.title) {
-            books[i] = req.body;
-            res.json(books[i]);
-            return;
-        }
+    const findBook = books.findIndex((book) => book.id === req.body.id)
+    if (findBook) {
+        books[findBook] = req.body
+        res.json(books[findBook])
+        return 
     }
     const newBook: Book = req.body;
     newBook.id = books.length + 1;
