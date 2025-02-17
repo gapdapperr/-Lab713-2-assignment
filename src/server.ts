@@ -8,20 +8,20 @@ const port = 5000
 app.use(express.json())
 
 
-app.get('/books', (req: Request, res: Response) => {
+app.get('/books', async (req: Request, res: Response) => {
     if (req.query.title) {
         const title = req.query.title as string;
-        const filteredBooks = getBookByTitle(title);
+        const filteredBooks = await getBookByTitle(title);
         res.json(filteredBooks);
     } else {
-        res.json(getAllBooks());
+        res.json(await getAllBooks());
     }
 })
 
 
-app.get('/books/:id', (req: Request, res: Response) => {
+app.get('/books/:id', async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const book = getBookById(id)
+    const book = await getBookById(id)
     if (book) {
     res.json(book);
     } else {
@@ -29,9 +29,9 @@ app.get('/books/:id', (req: Request, res: Response) => {
     }
 })
 
-app.post('/books', (req: Request, res: Response) => {
+app.post('/books', async (req: Request, res: Response) => {
     const newBook: Book = req.body;
-    addBook(newBook);
+    await addBook(newBook);
     res.json(newBook);
 })
 
