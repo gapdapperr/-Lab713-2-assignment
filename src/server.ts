@@ -1,4 +1,6 @@
+import e from 'express'
 import express, { Request, Response } from 'express'
+import { get } from 'http'
 const app = express()
 const port = 5000
 
@@ -58,25 +60,40 @@ const books: Book[] = [
     }
 ]
 
+function getBookByTitle(title: string): Book[] {
+    const filteredBooks = books.filter((book) => book.title === title);
+    return filteredBooks;
+}
+
+function getAllBooks(): Book[] {
+    return books;
+}
+
+function getBookById(id: number): Book | undefined {
+    return books.find((book) => book.id === id);
+}
+
+function addBook(newBook: Book): Book {
+    newBook.id = books.length + 1;
+    books.push(newBook);
+    return newBook;
+}
+
 
 app.get('/books', (req: Request, res: Response) => {
-    if (typeof req.query.title === "string") {
-        const title = req.query.title;
-        for (let i = 0; i < books.length; i++) {
-            if (books[i].title.startsWith(title)) {
-                res.json(books[i]);
-                return;
-            }
-        }
+    if (req.query.title) {
+        const title = req.query.title as string;
+        const filteredBooks = getBookByTitle(title);
+        res.json(filteredBooks);
+    } else {
+        res.json(getAllBooks());
     }
-        else {
-        res.json(books);}
 })
 
 
 app.get('/books/:id', (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const book = books.find((book) => book.id === id);
+    const book = getBookById(id)
     if (book) {
     res.json(book);
     } else {
@@ -85,16 +102,9 @@ app.get('/books/:id', (req: Request, res: Response) => {
 })
 
 app.post('/books', (req: Request, res: Response) => {
-    const findBook = books.findIndex((book) => book.id === req.body.id)
-    if (findBook) {
-        books[findBook] = req.body
-        res.json(books[findBook])
-        return 
-    }
     const newBook: Book = req.body;
-    newBook.id = books.length + 1;
-    books.push(newBook);
-    res.json(newBook);
+    addBook(newBook);
+    res.json(getAllBooks());
 })
 
 
