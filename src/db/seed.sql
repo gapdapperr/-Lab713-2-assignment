@@ -1,0 +1,7 @@
+INSERT INTO books (id, title, Author_name, description, `groups`) VALUES
+(1, 'The Alchemist', 'Paulo Coelho', 'The Alchemist is a novel by Brazilian author Paulo Coelho that was first published in 1988. Originally written in Portuguese, it became a widely translated international bestseller.', 'Fiction'),
+(2, 'The Lean Startup', 'Eric Ries', 'The Lean Startup: How Today’s Entrepreneurs Use Continuous Innovation to Create Radically Successful Businesses is a book by Eric Ries describing his proposed lean startup strategy for startup companies.', 'Business'),
+(3, 'The 4-Hour Workweek', 'Tim Ferriss', 'The 4-Hour Workweek: Escape 9-5, Live Anywhere, and Join the New Rich is a self-help book by Timothy Ferriss, an American writer, educational activist, and entrepreneur.', 'Business'),
+(4, 'The Da Vinci Code', 'Dan Brown', 'The Da Vinci Code is a 2003 mystery thriller novel by Dan Brown. It follows symbologist Robert Langdon and cryptologist Sophie Neveu after ', 'Fiction'),
+(5, 'The Great Gatsby', 'F. Scott Fitzgerald', 'The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts ', 'Fiction'),
+(6, 'The Catcher in the Rye', 'J.D. Salinger', 'The Catcher in the Rye is a novel by J. D. Salinger, partially published in serial form in 1945–1946 and as a novel in 1951. It was originally intended ', 'Fiction');
