@@ -1,14 +1,16 @@
 import express, { Request, Response } from 'express'
-import {getAllBooks, getBookByTitle, getBookById, addBook} from './services/bookService'
 import multer from 'multer'
 import dotenv from 'dotenv'
 dotenv.config()
+import eventRoute from './routes/eventRoute'
 import {uploadFile} from './services/uploadFileService'
-import type {Book} from './models/book'
 const app = express()
 const port = 5000
 
 app.use(express.json())
+
+
+app.use('/books', eventRoute)
 
 
 const upload = multer({ storage: multer.memoryStorage()})
@@ -33,32 +35,10 @@ if (!bucket || !filePath) {
     }
 })
 
-app.get('/books', async (req: Request, res: Response) => {
-    if (req.query.title) {
-        const title = req.query.title as string;
-        const filteredBooks = await getBookByTitle(title);
-        res.json(filteredBooks);
-    } else {
-        res.json(await getAllBooks());
-    }
-})
 
 
-app.get('/books/:id', async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-    const book = await getBookById(id)
-    if (book) {
-    res.json(book);
-    } else {
-    res.status(404).send("Book not found");
-    }
-})
 
-app.post('/books', async (req: Request, res: Response) => {
-    const newBook: Book = req.body;
-    await addBook(newBook);
-    res.json(newBook);
-})
+
 
 
 
